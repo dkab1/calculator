@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Calculator</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani&display=swap" rel="stylesheet"> 
+    <style>
+      body{
+        display: grid;
+        grid-template: 98vh/98vw;
+        align-content: center;
+        justify-content: center;
+      }
+      .container{
+        margin: auto;
+        height: 85vh;
+        width: 45vh;
+        display: flex;
+        flex-direction: column;
+        background: white;
+        border: 1px black solid;
+        border-radius: 1vh;
+        align-content: center;
+        justify-content: center;
+      }
+      .buttoncontainer{
+        margin:auto;
+        display: flex;
+        flex-direction: row;
+        flex: 7fr 3fr;
+        grid-gap: 1vh;
+        margin-bottom: 7.5vh;
+        align-self:center;
+        height: 60vh;
+        width: 40vh;
+      }
+      .numberButtons{
+        display:grid;
+        grid-template: 1fr 1fr 1fr 1fr 1fr/1fr 1fr 1fr;
+        margin:auto;
+        grid-gap: 1vh;
+      }
+      .operatorButtons{
+        display:flex;
+        flex-direction:column;
+        flex: 1fr 1fr 1fr 1fr 1fr;
+        margin:auto;
+        grid-gap: 1vh;
+      }
+      p{
+        display: flex;
+        justify-content: center;
+        align-items: center;;
+        font-family: 'Rajdhani', sans-serif;
+        width: 40vh;
+        align-self: center;
+        font-size: 8vh;
+        border: 1px black solid;
+        border-radius: 1vh;
+        margin-bottom: 5vh;
+      }
+      button{
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        font-size: 8vh;
+        background: white;
+        color: black;
+        border: 1px black solid;
+        border-radius: 1vh;
+      }
+      #numberZero{
+        grid-column: 1/4;
+      }
+      #clear{
+        grid-column: 1/4;
+      }
+
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <p class="display">000000000</p>
+      <div class="buttoncontainer">
+        <div class="numberButtons">
+          <button id="numberNine" class="numberButton">9</button>
+          <button id="numberEight" class="numberButton">8</button>
+          <button id="numberSeven" class="numberButton">7</button>
+          <button id="numberSix" class="numberButton">6</button>
+          <button id="numberFive" class="numberButton">5</button>
+          <button id="numberFour" class="numberButton">4</button>
+          <button id="numberThree" class="numberButton">3</button>
+          <button id="numberTwo" class="numberButton">2</button>
+          <button id="numberOne" class="numberButton">1</button>
+          <button id="numberZero" class="numberButton">0</button>
+          <button id="clear">CLEAR</button>
+        </div>
+        <div class="operatorButtons">
+          <button class="operation">+</button>
+          <button class="operation">-</button>
+          <button class="operation">&times</button>
+          <button class="operation">&divide</button>
+          <button id="equals">=</button>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    function add(a,b){
+      return parseFloat(a)+parseFloat(b);
+    }
+    function subtract(a,b){
+      return a-b;
+    }
+    function multiply(a,b){
+      return a*b;
+    }
+    function divide(a,b){
+      return a/b;
+    }
+    function operate(a,b,operator){
+      if (operator == "+")
+        return add(a,b);
+      else if (operator == "-")
+        return subtract(a,b);
+      else if (operator == "×")
+        return  multiply(a,b);
+      else if (operator =="÷")
+        return divide(a,b);
+    }
+
+    const numberButtons = document.querySelectorAll('.numberButton');
+    const display = document.querySelector('.display');
+    const clearButton = document.querySelector('#clear');
+    const operationButtons = document.querySelectorAll('.operation');
+    const computeButton = document.querySelector('#equals');
+    let a;
+    let b;
+    let operation;
+    let inputAllow;
+    numberButtons.forEach(element =>{
+      element.addEventListener("click", function(){
+        if (display.textContent=="000000000" || inputAllow==false){
+          display.textContent=element.textContent;
+          inputAllow=true;
+        }
+        else if (display.textContent.length<9 && inputAllow==true){
+          display.textContent = display.textContent + element.textContent;
+        }
+      });
+    });
+
+    clearButton.addEventListener("click", function(){
+      display.textContent = "000000000";
+      inputAllow = true;
+    });
+
+    operationButtons.forEach(element=>{
+      element.addEventListener("click", function(){
+        a = display.textContent;
+        operation = element.textContent;
+        display.textContent = "000000000";
+      });
+    });
+
+    computeButton.addEventListener('click', function(){
+      b = display.textContent;
+      display.textContent = operate(a,b,operation);
+      inputAllow = false;
+    });
+  </script>
+
+</html>
