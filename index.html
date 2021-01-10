@@ -140,9 +140,12 @@
     let b;
     let operation;
     let inputAllow;
+    let operateAllow=true;
+    let clearFirst=true;
+
     numberButtons.forEach(element =>{
       element.addEventListener("click", function(){
-        if (display.textContent=="000000000" || inputAllow==false){
+        if (display.textContent=="000000000" || inputAllow==false || clearFirst == true){
           display.textContent=element.textContent;
           inputAllow=true;
         }
@@ -155,20 +158,37 @@
     clearButton.addEventListener("click", function(){
       display.textContent = "000000000";
       inputAllow = true;
+      a=NaN;
+      b=NaN;
+      operationAllow = true;
     });
 
     operationButtons.forEach(element=>{
       element.addEventListener("click", function(){
+        if(operateAllow == true){
         a = display.textContent;
         operation = element.textContent;
-        display.textContent = "000000000";
+        display.textContent = a;
+        operateAllow = false;
+        clearFirst = true;
+        }
+        else{
+          alert("This version of the calculator can only handle 2 operands")
+        }
+
       });
     });
 
     computeButton.addEventListener('click', function(){
       b = display.textContent;
       display.textContent = operate(a,b,operation);
+      if (display.textContent.length>9){
+        if (display.textContent%1!=0){
+          display.textContent = display.textContent.slice(0,10)
+        }
+      }
       inputAllow = false;
+      operateAllow = true;
     });
   </script>
 
